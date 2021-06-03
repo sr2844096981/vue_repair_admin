@@ -1,0 +1,6 @@
+/* 声明字体 */
+
+@font-face {
+    font-family: electronicFont;
+    src: url(../../font/DS-DIGIT.TTF);
+}
