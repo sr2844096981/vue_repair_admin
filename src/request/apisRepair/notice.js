@@ -8,7 +8,7 @@ import request from "@/request/request"
 export const GetNoticeList = data => {
     return request({
         method: "POST",
-        url: "/magiccampus/viewAnnouncementAdmin",
+        url: "/magicCampus/viewAnnouncementAdmin.do",
         data
     })
 }
@@ -17,7 +17,7 @@ export const GetNoticeList = data => {
 export const DeleteNotice = data => {
     return request({
         method: "POST",
-        url: "/magiccampus/deleteAnnouncement",
+        url: "/magicCampus/deleteAnnouncement.do",
         data
     })
 }
@@ -26,7 +26,7 @@ export const DeleteNotice = data => {
 export const ReleaseNotice = data => {
     return request({
         method: "POST",
-        url: "/magiccampus/getAnnouncement",
+        url: "/magicCampus/getAnnouncement.do",
         data
     })
 }

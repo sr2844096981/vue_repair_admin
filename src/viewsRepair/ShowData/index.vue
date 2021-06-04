@@ -12,14 +12,14 @@
         >
       </div>
       <!-- 切换全屏 -->
-      <el-button
+<!--       <el-button
         type="success"
         icon="el-icon-full-screen"
         circle
         class="full-screen"
         size="small"
         @click="screenfull"
-      ></el-button>
+      ></el-button> -->
       <!-- <i class="el-icon-full-screen full-screen" @click="screenfull"></i> -->
     </div>
     <!-- 图表 -->

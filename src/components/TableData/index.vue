@@ -3,8 +3,6 @@
     <el-table :data="tableData" border>
       <!-- 索引 -->
       <el-table-column type="index"></el-table-column>
-
-      <!--回调-->
       <el-table-column
         v-if="item.type === 'function'"
         :key="item.prop"

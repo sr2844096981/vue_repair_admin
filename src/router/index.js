@@ -47,29 +47,17 @@ const routes = [{
             component: () =>
                 import ( /* webpackChunkName: "AddQRcode" */ '../viewsRepair/QRcode/addQRcode'),
         }, {
-            path: '/amap',
-            component: () =>
-                import ( /* webpackChunkName: "BMapDemo" */ '../viewsRepair/AMapDemo'),
-        }, {
-            path: '/bmapgl',
-            component: () =>
-                import ( /* webpackChunkName: "BMapDemoGL" */ '../viewsRepair/BMapDemoGL'),
-        }, {
-            path: '/bmap',
-            component: () =>
-                import ( /* webpackChunkName: "BMapDemo" */ '../viewsRepair/BMapDemo'),
-        }, {
             path: '/demo',
             component: () =>
                 import ( /* webpackChunkName: "Demo" */ '../components/demo.vue'),
-        }]
+        }, ]
     },
     // 全屏显示
-    {
-        path: '/bmapscreenfull',
-        component: () =>
-            import ( /* webpackChunkName: "BMapDemo" */ '../viewsRepair/BMapDemo'),
-    }
+    // {
+    //     path: '/bmapscreenfull',
+    //     component: () =>
+    //         import ( /* webpackChunkName: "BMapDemo" */ '../viewsRepair/BMapDemo'),
+    // }
 
 ]
 

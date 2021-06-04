@@ -8,7 +8,7 @@ import request from "@/request/request"
 export const GetAllStaff = () => {
     return request({
         method: "GET",
-        url: "/magiccampus/queryAllRepairWorker",
+        url: "/magicCampus/queryAllRepairWorker.do",
     })
 }
 
@@ -16,7 +16,7 @@ export const GetAllStaff = () => {
 export const AddStaff = data => {
     return request({
         method: "POST",
-        url: "/magiccampus/insertWorker",
+        url: "/magicCampus/insertWorker.do",
         data
     })
 }
@@ -25,7 +25,7 @@ export const AddStaff = data => {
 export const UpdateStaffInfo = data => {
     return request({
         method: "POST",
-        url: "/magiccampus/updateWorker",
+        url: "/magicCampus/updateWorker.do",
         data
     })
 }
@@ -34,7 +34,7 @@ export const UpdateStaffInfo = data => {
 export const DeleteStaff = data => {
     return request({
         method: "GET",
-        url: "/magiccampus/deleteWorker?id=" + data,
+        url: "/magicCampus/deleteWorker.do?id=" + data,
     })
 }
 
@@ -42,6 +42,6 @@ export const DeleteStaff = data => {
 export const QueryStaff = data => {
     return request({
         method: "GET",
-        url: "/magiccampus/queryTypeWorker?type=" + data,
+        url: "/magicCampus/queryTypeWorker.do?type=" + data,
     })
 }

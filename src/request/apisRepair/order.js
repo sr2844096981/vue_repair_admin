@@ -7,7 +7,7 @@ import request from "@/request/request"
 export const GetAllOrders = () => {
     return request({
         method: "GET",
-        url: "/magiccampus/repairList",
+        url: "/magicCampus/repairList.do",
     })
 }
 
@@ -15,7 +15,7 @@ export const GetAllOrders = () => {
 export const QueryOrder = (id, name, schedule) => {
     return request({
         method: "POST",
-        url: `/magiccampus/queryAdministratorScheduleList?id=${id}&name=${name}&schedule=${schedule}`,
+        url: `/magicCampus/queryAdministratorScheduleList.do?id=${id}&name=${name}&schedule=${schedule}`,
     })
 }
 
@@ -23,7 +23,7 @@ export const QueryOrder = (id, name, schedule) => {
 export const AcceptancenOrder = (id, repairId, name) => {
     return request({
         method: "POST",
-        url: `/magiccampus/updateAccept?id=${id}&repairId=${repairId}&name=${name}`,
+        url: `/magicCampus/updateAccept.do?id=${id}&repairId=${repairId}&name=${name}`,
     })
 }
 
@@ -31,7 +31,7 @@ export const AcceptancenOrder = (id, repairId, name) => {
 export const AssignmentOrder = (phone, repairId, name) => {
     return request({
         method: "POST",
-        url: `/magiccampus/updateDispatch?phone=${phone}&repairId=${repairId}&name=${name}`,
+        url: `/magicCampus/updateDispatch.do?phone=${phone}&repairId=${repairId}&name=${name}`,
     })
 }
 
@@ -39,7 +39,7 @@ export const AssignmentOrder = (phone, repairId, name) => {
 export const WorkSign = (repairId) => {
     return request({
         method: "POST",
-        url: `/magiccampus/workSign?repairId=${repairId}`,
+        url: `/magicCampus/workSign.do?repairId=${repairId}`,
     })
 }
 
@@ -47,6 +47,6 @@ export const WorkSign = (repairId) => {
 export const Complete = (repairId) => {
     return request({
         method: "POST",
-        url: `/magiccampus/updateFinished?repairId=${repairId}`,
+        url: `/magicCampus/updateFinished.do?repairId=${repairId}`,
     })
 }

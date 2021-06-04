@@ -2,7 +2,7 @@
   <div class="home">
     <el-container>
       <el-aside :width="isCollapse ? '64px' : '200px'">
-        <div class="logo">一休后台管理系统</div>
+        <div class="logo">报修后台管理系统</div>
         <el-menu
           background-color="#282E38"
           text-color="#fff"
@@ -104,7 +104,7 @@ export default {
           name: "二维码",
         },
         {
-          id: 10,
+          id: 6,
           path: "/showdata",
           icon: "el-icon-s-data",
           name: "数据展示",
@@ -115,24 +115,7 @@ export default {
           icon: "el-icon-s-data",
           name: "测试",
         },
-        {
-          id: 12,
-          path: "/bmap",
-          icon: "el-icon-s-data",
-          name: "百度地图测试",
-        },
-        {
-          id: 13,
-          path: "/amap",
-          icon: "el-icon-s-data",
-          name: "高德地图测试",
-        },
-        {
-          id: 14,
-          path: "/bmapgl",
-          icon: "el-icon-s-data",
-          name: "百度地图GL测试",
-        },
+        
       ],
       // 激活的菜单项
       activePath: "",

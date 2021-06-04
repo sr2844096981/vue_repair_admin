@@ -7,7 +7,7 @@ import request from "@/request/request"
 export const ChangeAvatar = data => {
     return request({
         method: "POST",
-        url: "/magiccampus/uploadAdminHeaderDatabase",
+        url: "/magicCampus/uploadAdminHeaderDatabase.do",
         data
     })
 }

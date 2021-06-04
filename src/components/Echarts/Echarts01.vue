@@ -104,10 +104,8 @@ export default {
       option && myChart.setOption(option);
     },
     getOrderNumByWeek() {
-      let userInfo = JSON.parse(localStorage.getItem("userInfo"));
-      let id = userInfo.id;
-      let name = userInfo.name;
-      GetOrderNumByWeek(id, name).then((res) => {
+
+      GetOrderNumByWeek().then((res) => {
         // console.log(res.data.data);
         let xAxisData = [];
         let yAxisData = [0, 0, 0, 0, 0, 0, 0];

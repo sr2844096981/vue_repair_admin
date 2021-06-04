@@ -1,13 +1,12 @@
 // 引用全屏显示插件
-import screenfull from "screenfull";
+// import screenfull from "screenfull";
 import Eacharts01 from "../../components/Echarts/Echarts01.vue";
-import Eacharts02 from "../../components/Echarts/Echarts02.vue";
 import Eacharts03 from "../../components/Echarts/Echarts03.vue";
 // api
 import { GetOrderNum, GetRepairListByToday } from "@/request/apisRepair/showdata"
 export default {
     name: "bmap",
-    components: { Eacharts01, Eacharts02, Eacharts03 },
+    components: { Eacharts01, Eacharts03 },
     data() {
         return {
             // 当天订单数量
@@ -26,6 +25,8 @@ export default {
             },
             // 新订单信息
             content: '新订单信息',
+            // 轮询新订单定时器
+            timerLoopRequest: null,
             // 标记点
             marker: [],
             // 信息框内容
@@ -43,6 +44,11 @@ export default {
         this.getRepairListByToday();
         // 轮询
         this.loopRequest()
+    },
+    beforeDestroy() {
+        if (this.timerLoopRequest) { //如果定时器还在运行 或者直接关闭，不用判断
+            clearInterval(this.timerLoopRequest); //关闭
+        }
     },
     methods: {
         // 关闭信息窗口
@@ -74,15 +80,15 @@ export default {
             }
         },
         // 全屏显示
-        screenfull() {
-            if (screenfull.isFullscreen == false) {
-                this.$router.push("/bmapscreenfull");
-            } else {
-                this.$router.push("/bmap");
-            }
-            // 切换全屏
-            screenfull.toggle();
-        },
+        /*         screenfull() {
+                    if (screenfull.isFullscreen == false) {
+                        this.$router.push("/bmapscreenfull");
+                    } else {
+                        this.$router.push("/bmap");
+                    }
+                    // 切换全屏
+                    screenfull.toggle();
+                }, */
         // 功能介绍
         funIntroduction() {
             this.$notify({
@@ -128,11 +134,9 @@ export default {
         },
         // 获取当天新增订单
         getRepairListByToday() {
-            let userInfo = JSON.parse(localStorage.getItem("userInfo"));
-            let id = userInfo.id;
-            let name = userInfo.name;
-            GetRepairListByToday(id, name).then(res => {
-                console.log(res.data.data);
+
+            GetRepairListByToday().then(res => {
+                console.log(res.data);
                 if (res.data.data.length == 0) return
                 for (let i = 0; i < this.marker.length; i++) {
                     if (this.marker[i] == res.data.data[0].repairArea) {
@@ -157,13 +161,14 @@ export default {
         },
         // 轮询新订单
         loopRequest() {
-            setInterval(() => {
+            this.timerLoopRequest = setInterval(() => {
                 console.log("轮询新订单");
                 // 在这里发送请求获取数据
                 this.getRepairListByToday()
 
             }, 5000);
         },
+
         // 标记点信息
         showMarker() {
             this.marker = [{

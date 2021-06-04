@@ -6,17 +6,17 @@ import request from "./request"
 export const Login = data => {
     /* 
         简写：
-        request.post("/magiccampus/getAdministratorLogin", data)
+        request.post("/magicCampus/getAdministratorLogin", data)
         完整写法：
         request({
             method:"POST",
-            url:"/magiccampus/getAdministratorLogin",
+            url:"/magicCampus/getAdministratorLogin",
             data:data
         })
     */
     return request({
         method: "POST",
-        url: "/magiccampus/postAdministratorLogin",
+        url: "/magicCampus/postAdministratorLogin.do",
         data
     })
 }
