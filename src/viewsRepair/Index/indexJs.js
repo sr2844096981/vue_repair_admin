@@ -69,15 +69,16 @@ export default {
         },
 
         dealMyDate(v) {
-            let len = this.resDate.length;
-            let res = "";
-            for (let i = 0; i < len; i++) {
-                if (this.resDate[i].date == v) {
-                    res = this.resDate[i].content;
-                    break;
-                }
-            }
-            return res;
+            /*  const len = this.resDate.length;
+             console.log(len);
+             let res = "";
+             for (let i = 0; i < len; i++) {
+                 if (this.resDate[i].date == v) {
+                     res = this.resDate[i].content;
+                     break;
+                 }
+             }
+             return res; */
         },
         // 选中的日期
         isSelected(date) {
@@ -87,7 +88,7 @@ export default {
         },
         // 显示标签
         showTag() {
-            // 清除空的记录
+            /* // 清除空的记录
             for (let i = 0; i < this.resDate.length; i++) {
                 if (this.resDate[i].content == "") {
                     this.resDate.splice(this.resDate.indexOf(i), 1);
@@ -102,7 +103,7 @@ export default {
                 }
             }
             // 无记录
-            this.tagData = [];
+            this.tagData = []; */
         },
         // 页面加载时，显示标签
         loadShowTag() {

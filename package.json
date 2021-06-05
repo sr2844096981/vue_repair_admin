@@ -10,6 +10,7 @@
         "@amap/amap-vue": "^2.0.12",
         "axios": "^0.21.1",
         "core-js": "^3.6.5",
+        "cropperjs": "^1.5.11",
         "echarts": "^5.0.2",
         "echarts-gl": "^2.0.2",
         "element-ui": "^2.4.5",

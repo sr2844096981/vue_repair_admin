@@ -15,9 +15,10 @@
         <el-upload
           class="upload-demo"
           drag
-          action="http://localhost:8084/magiccampus/addAnnImageServer"
+          action="http://localhost:8084/magicCampus/addAnnImageServer.do"
           multiple
           :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload"
         >
           <i class="el-icon-upload"></i>
           <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
@@ -25,6 +26,9 @@
             只能上传jpg/png文件，且不超过500kb
           </div>
         </el-upload>
+        <div class="image-wrap">
+          <img class="image" ref="preview-image" :src="previewImage" alt="图片预览"/>
+        </div>
       </el-form-item>
 
       <el-form-item>
@@ -36,11 +40,18 @@
 </template>
 
 <script>
+// api 
 import { ReleaseNotice } from "@/request/apisRepair/notice";
-
+// 引入裁切图片相关
+import "cropperjs/dist/cropper.css";
+import Cropper from "cropperjs";
 export default {
   data() {
     return {
+       // 预览图片
+      previewImage: "",
+      // 裁切器实例
+      cropper: null,
       imageUrl: "",
       form: {},
       noticeForm: {
@@ -87,25 +98,31 @@ export default {
         this.noticeForm.image = noticeForm.image;
       }
     },
+    // 裁切器设置
+    setCropper() {
+      // 初始化裁切器
+      const image = this.$refs["preview-image"];
+      this.cropper = new Cropper(image, {
+        // 裁切比例
+        aspectRatio: 1,
+        // 移动画布
+        dragMove: "move",
+      })
+    },
     // 上传图片文件方法
     handleAvatarSuccess(res, file) {
-      // console.log(res);
+      console.log(res);
       this.noticeForm.image = res.data.fileName;
     },
     // 上传图片前预校验
-    /* beforeAvatarUpload(file) {
+    beforeAvatarUpload(file) {
       console.log(file);
-      const isJPG = file.type === "image/jpeg";
       const isLt2M = file.size / 1024 / 1024 < 2;
-
-      if (!isJPG) {
-        this.$message.error("上传头像图片只能是 JPG 格式!");
-      }
       if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
+        this.$message.error("上传图片大小不能超过 2MB!");
       }
       return isJPG && isLt2M;
-    }, */
+    },
     preserve() {
       this.$message.success("保存成功");
     },
@@ -113,5 +130,23 @@ export default {
 };
 </script>
 
-<style>
+<style  lang="css" scoped>
+
+.upload-demo{
+  float: left;
+}
+.image-wrap {
+  float: right;
+  height: 240px;
+  width: 320px;
+  margin: 0 auto;
+  border-radius: 20px;
+  border: 1px dotted #C0C4CC;
+}
+
+.image {
+  display: block;
+  /* This rule is very important, please don't ignore this */
+  max-width: 100%;
+}
 </style>

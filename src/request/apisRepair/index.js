@@ -11,3 +11,12 @@ export const ChangeAvatar = data => {
         data
     })
 }
+
+// 上传管理员头像到服务器
+export const UpdateAvatarToServer = data => {
+    return request({
+        method: "POST",
+        url: "/magicCampus/updateAdminHeaderServer.do",
+        data
+    })
+}
