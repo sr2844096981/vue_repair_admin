@@ -1,10 +1,10 @@
 import axios from "axios"
+import router from "../router";
 
 const request = axios.create({
-    baseURL: "http://localhost:8084",
+    baseURL: "http://localhost:8080",
     timeout: 5000
 })
-export default request
 
 // instance 拦截器
 /* const instance = axios.create({
@@ -12,6 +12,7 @@ export default request
     timeout: 5000
 }) */
 
+// 请求拦截器
 // 发请求之前执行
 /* instance.interceptors.request.use(
     config => {
@@ -28,13 +29,22 @@ export default request
         return Promise.reject(error);
     }); */
 
-/* instance.interceptors.response.use(
+// 响应拦截器
+request.interceptors.response.use(
     res => {
         console.log(res);
         return res;
     },
     error => {
+        const { status } = error.response
+        setTimeout(() => {
+            if (status === 404) {
+                router.push('/error')
+            } else if (status >= 500) {
+                router.push('/error404')
+            }
+        }, 3000);
         return Promise.reject(error);
-    }); */
+    });
 
-// export default instance
+export default request

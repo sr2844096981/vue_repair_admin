@@ -58,6 +58,17 @@ const routes = [{
     //     component: () =>
     //         import ( /* webpackChunkName: "BMapDemo" */ '../viewsRepair/BMapDemo'),
     // }
+    // 错误提示页
+    {
+        path: '/error',
+        component: () =>
+            import ( /* webpackChunkName: "ErrorMessage" */ '../components/ErrorMessage/ErrorOther.vue'),
+    },
+    {
+        path: '/error404',
+        component: () =>
+            import ( /* webpackChunkName: "ErrorMessage" */ '../components/ErrorMessage/Error404.vue'),
+    }
 
 ]
 
