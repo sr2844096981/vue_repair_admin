@@ -62,21 +62,11 @@ export default {
         aspectRatio: 1,
         // 移动画布
         dragMove: "move",
-        crop(event) {
-          // console.log(event.detail.x);
-          // console.log(event.detail.y);
-          // console.log(event.detail.width);
-          // console.log(event.detail.height);
-          // console.log(event.detail.rotate);
-          // console.log(event.detail.scaleX);
-          // console.log(event.detail.scaleY);
-        },
       });
     },
     // 选择图片触发事件
     onFileChange() {
       // 选择图片前，销毁裁切器
-      // if (this.cropper !== null) this.cropper.destroy();
       if (this.cropper) this.cropper.destroy();
       const file = this.$refs.file;
       // console.log(file.files[0]);

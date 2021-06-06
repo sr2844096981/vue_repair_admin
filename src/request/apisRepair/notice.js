@@ -30,3 +30,12 @@ export const ReleaseNotice = data => {
         data
     })
 }
+
+// 上传图片到服务器
+export const AddAnnImageToServer = data => {
+    return request({
+        method: "POST",
+        url: "/magicCampus/addAnnImageServer.do",
+        data
+    })
+}

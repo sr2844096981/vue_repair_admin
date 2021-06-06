@@ -12,23 +12,25 @@
         ></el-input>
       </el-form-item>
       <el-form-item label="封面">
-        <el-upload
-          class="upload-demo"
-          drag
-          action="http://localhost:8084/magicCampus/addAnnImageServer.do"
-          multiple
-          :on-success="handleAvatarSuccess"
-          :before-upload="beforeAvatarUpload"
-        >
-          <i class="el-icon-upload"></i>
-          <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-          <div class="el-upload__tip" slot="tip">
-            只能上传jpg/png文件，且不超过500kb
-          </div>
-        </el-upload>
         <div class="image-wrap">
-          <img class="image" ref="preview-image" :src="previewImage" alt="图片预览"/>
+          <img
+            class="image"
+            ref="preview-image"
+            :src="previewImage"
+            alt="图片预览"
+          />
         </div>
+        <input type="file" ref="file" @change="onFileChange" hidden />
+        <el-button class="closeImg" type="success" @click="$refs.file.click()"
+          >选择图片</el-button
+        >
+        <el-button
+          class="closeImg"
+          type="success"
+          @click="cropperSuccess"
+          v-if="flag"
+          >裁剪完成</el-button
+        >
       </el-form-item>
 
       <el-form-item>
@@ -40,15 +42,18 @@
 </template>
 
 <script>
-// api 
-import { ReleaseNotice } from "@/request/apisRepair/notice";
+// api
+import {
+  ReleaseNotice,
+  AddAnnImageToServer,
+} from "@/request/apisRepair/notice";
 // 引入裁切图片相关
 import "cropperjs/dist/cropper.css";
 import Cropper from "cropperjs";
 export default {
   data() {
     return {
-       // 预览图片
+      // 预览图片
       previewImage: "",
       // 裁切器实例
       cropper: null,
@@ -64,6 +69,7 @@ export default {
       dialogImageUrl: "",
       dialogVisible: false,
       formData: new FormData(),
+      flag: false,
     };
   },
   mounted() {
@@ -104,24 +110,62 @@ export default {
       const image = this.$refs["preview-image"];
       this.cropper = new Cropper(image, {
         // 裁切比例
-        aspectRatio: 1,
+        aspectRatio: 4 / 3,
         // 移动画布
         dragMove: "move",
-      })
+      });
     },
-    // 上传图片文件方法
-    handleAvatarSuccess(res, file) {
-      console.log(res);
-      this.noticeForm.image = res.data.fileName;
+    // 选择图片触发事件
+    onFileChange() {
+      // 显示裁切完成按钮
+      this.flag = true;
+      // 选择图片前，销毁裁切器
+      if (this.cropper) this.cropper.destroy();
+      const file = this.$refs.file;
+      // console.log(file.files[0]);
+      // 预览图片
+      const blobData = window.URL.createObjectURL(file.files[0]);
+      // console.log(blobData);
+      this.previewImage = blobData;
+      setTimeout(this.setCropper, 300);
     },
-    // 上传图片前预校验
+    // 完成裁剪
+    cropperSuccess() {
+      // 加载中
+      // this.loading = true;
+      // 将裁切后的图片上传到服务器
+      this.cropper.getCroppedCanvas().toBlob((file) => {
+        const fd = new FormData();
+        fd.append("fileName", file, "不清楚为什么需要文件名.png");
+        // console.log(fd.get("fileName"));
+        AddAnnImageToServer(fd).then((res) => {
+          console.log(res.data.data.fileName);
+          this.noticeForm.image = res.data.data.fileName;
+          this.previewImage = res.data.data.fileName;
+          // 对话框关闭，销毁裁切器
+          this.cropper.destroy();
+        });
+      });
+      this.flag = false;
+    },
+    // 对话框关闭时的回调
+    onDialogClosed() {
+      // 对话框关闭，销毁裁切器
+      this.cropper.destroy();
+      // 清空预览图片
+      this.previewImage = "";
+    },
+    // 上传图片前预处理
     beforeAvatarUpload(file) {
       console.log(file);
+      // 校验图片大小
       const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isLt2M) {
-        this.$message.error("上传图片大小不能超过 2MB!");
-      }
-      return isJPG && isLt2M;
+      if (!isLt2M) return this.$message.error("上传图片大小不能超过 2MB!");
+      // 预览图片
+      const nfile = this.$refs.file;
+      const blobData = window.URL.createObjectURL(file);
+      console.log(blobData);
+      // this.previewImage = blobData;
     },
     preserve() {
       this.$message.success("保存成功");
@@ -131,22 +175,22 @@ export default {
 </script>
 
 <style  lang="css" scoped>
-
-.upload-demo{
+.closeImg {
   float: left;
+  margin: 20px 0 0 20px;
 }
 .image-wrap {
-  float: right;
+  float: left;
   height: 240px;
   width: 320px;
   margin: 0 auto;
   border-radius: 20px;
-  border: 1px dotted #C0C4CC;
+  overflow: hidden;
+  border: 1px dotted #c0c4cc;
 }
 
 .image {
   display: block;
-  /* This rule is very important, please don't ignore this */
   max-width: 100%;
 }
 </style>
