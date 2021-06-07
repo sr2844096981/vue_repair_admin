@@ -33,7 +33,7 @@
     <baidu-map
       class="bm-view"
       :center="center"
-      :zoom="17"
+      :zoom="18"
       :scroll-wheel-zoom="true"
     >
       <!-- 最新订单 跳动的点 -->

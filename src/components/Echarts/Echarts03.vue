@@ -17,7 +17,7 @@ export default {
     };
   },
   mounted() {
-    this.getOrderNumByRegion();
+    // this.getOrderNumByRegion();
 
     setTimeout(() => {
       this.dataConfig();

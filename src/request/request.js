@@ -2,7 +2,10 @@ import axios from "axios"
 import router from "../router";
 
 const request = axios.create({
+    // 开发
     baseURL: "http://localhost:8080",
+    // 上线
+    // baseURL: "http://39.101.165.25:8080",
     timeout: 5000
 })
 
@@ -36,12 +39,13 @@ request.interceptors.response.use(
         return res;
     },
     error => {
+        console.log(error);
         const { status } = error.response
         setTimeout(() => {
             if (status === 404) {
-                router.push('/error')
-            } else if (status >= 500) {
                 router.push('/error404')
+            } else if (status >= 500) {
+                router.push('/error')
             }
         }, 3000);
         return Promise.reject(error);

@@ -9,12 +9,12 @@
           </div>
           <div class="form-group">
             <div class="input-group">
-              <input type="text" :value="loginForm.id" placeholder="账号" />
+              <input type="text"  v-model="loginForm.id" placeholder="账号" />
             </div>
             <div class="input-group">
               <input
                 type="password"
-                :value="loginForm.password"
+                v-model="loginForm.password"
                 placeholder="密码"
               />
             </div>

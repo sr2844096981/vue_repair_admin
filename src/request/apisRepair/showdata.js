@@ -4,11 +4,18 @@ import request from "@/request/request"
  * 数据展示相关api
  */
 
-// 获取报修数量
-export const GetOrderNum = (id, name, day) => {
+// 获取今日报修数量
+export const GetOrderNumByToday = () => {
+        return request({
+            method: "GET",
+            url: '/magicCampus/getTodayNewRepair.do',
+        })
+    }
+    // 获取全部报修数量
+export const GetOrderNumByAll = () => {
     return request({
-        method: "POST",
-        url: `/magicCampus/getTodayNewRepair.do?id=${id}&name=${name}&day=${day}`,
+        method: "GET",
+        url: '/magicCampus/allNewRepair.do',
     })
 }
 
@@ -24,7 +31,7 @@ export const GetOrderByRegion = (id, name, area) => {
 export const GetOrderNumByRegion = () => {
     return request({
         method: "GET",
-        url: '/magicCampus/getRepairNumListByArea',
+        url: '/magicCampus/getRepairNumListByArea.do',
     })
 }
 

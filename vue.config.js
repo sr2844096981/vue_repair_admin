@@ -10,9 +10,9 @@ module.exports = {
                 target: 'http://39.101.165.25:8080/',
                 ws: true,
                 changOrigin: true, //允许跨域
-                /* pathRewrite: {
-                    '^/myWeb': '' //请求的时候使用这个api就可以
-                } */
+                //  pathRewrite: {
+                //     '^/myWeb': '' //请求的时候使用这个api就可以
+                // } 
             }
         }
     },

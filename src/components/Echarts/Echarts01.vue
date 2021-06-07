@@ -106,9 +106,9 @@ export default {
     getOrderNumByWeek() {
 
       GetOrderNumByWeek().then((res) => {
-        // console.log(res.data.data);
+        console.log(res.data.data);
         let xAxisData = [];
-        let yAxisData = [0, 0, 0, 0, 0, 0, 0];
+        let yAxisData = [];
         for (let i = 0; i < res.data.data.length; i++) {
           xAxisData.push(res.data.data[i].day.substring(5));
           yAxisData.push(res.data.data[i].num);

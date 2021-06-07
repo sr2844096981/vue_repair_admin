@@ -3,7 +3,9 @@
 import Eacharts01 from "../../components/Echarts/Echarts01.vue";
 import Eacharts03 from "../../components/Echarts/Echarts03.vue";
 // api
-import { GetOrderNum, GetRepairListByToday } from "@/request/apisRepair/showdata"
+import { GetOrderNumByToday, GetOrderNumByAll, GetRepairListByToday } from "@/request/apisRepair/showdata"
+import { QueryOrder } from "@/request/apisRepair/order";
+
 export default {
     name: "bmap",
     components: { Eacharts01, Eacharts03 },
@@ -32,7 +34,9 @@ export default {
             // 信息框内容
             infoText: "",
             // 今日订单
-            orderToday: []
+            orderToday: [],
+            // 轮询时新增数量
+            newNum: 0
         };
     },
     mounted() {
@@ -43,7 +47,9 @@ export default {
         this.getOrderNum();
         this.getRepairListByToday();
         // 轮询
-        this.loopRequest()
+        this.loopRequest();
+
+
     },
     beforeDestroy() {
         if (this.timerLoopRequest) { //如果定时器还在运行 或者直接关闭，不用判断
@@ -99,16 +105,24 @@ export default {
         },
         // 未处理订单提示
         untreated() {
+            // 未处理数
+            let untreatedOrderNum = 0
+            QueryOrder('id', 'name', '已报修').then(res => {
+                console.log(res.data.data.length);
+                untreatedOrderNum = res.data.data.length
+            })
             const h = this.$createElement;
-            this.$notify({
-                title: "警告",
-                message: h(
-                    "i", { style: "color: teal" },
-                    "您有" + 10 + "条订单未处理，请及时处理"
-                ),
-                type: "warning",
-                duration: 0,
-            });
+            setTimeout(() => {
+                this.$notify({
+                    title: "警告",
+                    message: h(
+                        "i", { style: "color: teal" },
+                        "您有" + untreatedOrderNum + "条订单未处理，请及时处理"
+                    ),
+                    type: "warning",
+                    duration: 0,
+                });
+            }, 1000);
         },
         // 通知
         open3() {
@@ -119,44 +133,44 @@ export default {
         },
         // 获取订单数量
         getOrderNum() {
-            let userInfo = JSON.parse(localStorage.getItem("userInfo"));
             // 当天订单数量
-            GetOrderNum(userInfo.id, userInfo.name, "").then(res => {
+            GetOrderNumByToday().then(res => {
                     console.log(res);
                     if (res.data.code !== 200) return this.$message.error("获取失败");
                     this.sameDayNum = res.data.data
                 })
                 // 全部订单数量
-            GetOrderNum(userInfo.id, userInfo.name, 123).then(res => {
+            GetOrderNumByAll().then(res => {
                 if (res.data.code !== 200) return this.$message.error("获取失败");
                 this.allDayNum = res.data.data
             })
         },
         // 获取当天新增订单
         getRepairListByToday() {
-
             GetRepairListByToday().then(res => {
-                console.log(res.data);
-                if (res.data.data.length == 0) return
-                for (let i = 0; i < this.marker.length; i++) {
-                    if (this.marker[i] == res.data.data[0].repairArea) {
-                        this.leapPosition.lng = this.marker[i].lngPosition
-                        this.leapPosition.lat = this.marker[i].latPosition
-                    }
-                }
-                // 新订单展示内容
-                this.content = "位置：" + res.data.data[0].repairArea + "，项目：" + res.data.data[0].repairProject
-                if (this.orderToday < res.data.data.length) {
-                    let newOrderNum = res.data.data.length - this.orderToday
-                    console.log("新增订单数：", newOrderNum);
-                    for (let j = 0; j < newOrderNum; j++) {
-                        this.content = "位置：" + res.data.data[i].repairArea + "，项目：" + res.data.data[i].repairProject
-                        this.open3()
+                // console.log(res.data);
+                if (res.data.data.length <= this.newNum) return
+                this.newNum = res.data.data.length;
+                // console.log(res.data);
+                // 新订单通知展示内容
+                this.content = "位置：" + res.data.data[this.newNum - 1].repairArea + "，项目：" + res.data.data[this.newNum - 1].repairProject
+                this.open3();
+                // 新订单地图展示内容
+                // leapPosition 跳动点坐标
+                console.log(res.data.data[res.data.data.length - 1].repairArea);
+                let str = res.data.data[res.data.data.length - 1].repairArea
+                let index = str.lastIndexOf("-")
+                str = str.substring(index + 1, str.length);
+                // console.log(str) 
+                for (let k = 0; k < this.marker.length; k++) {
+                    if (str == this.marker[k].windowInfo.text) {
+                        this.leapPosition.lng = this.marker[k].lngPosition
+                        this.leapPosition.lat = this.marker[k].latPosition
+                        this.center.lng = this.marker[k].lngPosition
+                        this.center.lat = this.marker[k].latPosition
                     }
                 }
                 this.orderToday = res.data.data
-
-
             })
         },
         // 轮询新订单
@@ -165,10 +179,8 @@ export default {
                 console.log("轮询新订单");
                 // 在这里发送请求获取数据
                 this.getRepairListByToday()
-
             }, 5000);
         },
-
         // 标记点信息
         showMarker() {
             this.marker = [{
@@ -180,7 +192,7 @@ export default {
                     latPosition: 36.455528,
                     // 信息
                     windowInfo: {
-                        text: "1号宿舍楼",
+                        text: "一号宿舍楼",
                     },
                     showInfo: false,
                 },
@@ -193,7 +205,7 @@ export default {
                     latPosition: 36.455819,
                     // 信息
                     windowInfo: {
-                        text: "2号宿舍楼",
+                        text: "二号宿舍楼",
                     },
                     showInfo: false,
                 },
@@ -206,7 +218,7 @@ export default {
                     latPosition: 36.456149,
                     // 信息
                     windowInfo: {
-                        text: "3号宿舍楼",
+                        text: "三号宿舍楼",
                     },
                     showInfo: false,
                 },
@@ -219,7 +231,7 @@ export default {
                     latPosition: 36.456461,
                     // 信息
                     windowInfo: {
-                        text: "4号宿舍楼",
+                        text: "四号宿舍楼",
                     },
                     showInfo: false,
                 },
@@ -232,7 +244,7 @@ export default {
                     latPosition: 36.457571,
                     // 信息
                     windowInfo: {
-                        text: "5号宿舍楼",
+                        text: "五号宿舍楼",
                     },
                     showInfo: false,
                 },
@@ -245,7 +257,7 @@ export default {
                     latPosition: 36.458039,
                     // 信息
                     windowInfo: {
-                        text: "6号宿舍楼",
+                        text: "六号宿舍楼",
                     },
                     showInfo: false,
                 },
@@ -258,7 +270,7 @@ export default {
                     latPosition: 36.455118,
                     // 信息,
                     windowInfo: {
-                        text: "1号教学楼",
+                        text: "一号教学楼",
                     },
                     showInfo: false,
                 },
@@ -271,7 +283,7 @@ export default {
                     latPosition: 36.455459,
                     // 信息
                     windowInfo: {
-                        text: "2号宿舍楼",
+                        text: "二号宿舍楼",
                     },
                     showInfo: false,
                 },
@@ -284,7 +296,7 @@ export default {
                     latPosition: 36.455902,
                     // 信息,
                     windowInfo: {
-                        text: "3号宿舍楼",
+                        text: "三号宿舍楼",
                     },
                     showInfo: false,
                 },
@@ -297,7 +309,7 @@ export default {
                     latPosition: 36.456635,
                     // 信息
                     windowInfo: {
-                        text: "6号教学楼",
+                        text: "六号教学楼",
                     },
                     showInfo: false,
                 },
