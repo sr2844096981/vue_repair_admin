@@ -10,9 +10,7 @@ export default {
             // 订单列表
             ordersData: [],
             // 订单详情数据
-            detailsData: {
-
-            },
+            detailsData: {},
             // 控制详情对话框的显示与隐藏
             dialogVisibleDetails: false,
             // 控制派工对话框的显示与隐藏
@@ -75,7 +73,7 @@ export default {
         // 获取全部订单数据
         getAllOrders() {
             GetAllOrders().then((res) => {
-                console.log(res.data);
+                // console.log(res.data);
                 if (res.data.code !== 200) return this.$message.error("获取数据失败");
                 this.ordersData = res.data.data;
                 this.operationStatus();
@@ -165,10 +163,10 @@ export default {
                 })
                 .then(() => {
                     let userInfo = JSON.parse(localStorage.getItem("userInfo"));
-                    const id = userInfo.id;
                     const repairId = row.id;
                     const name = userInfo.name;
-                    AcceptancenOrder(id, repairId, name).then((res) => {
+                    AcceptancenOrder(repairId, name).then((res) => {
+                        console.log(res.data);
                         if (res.data.code !== 200) return this.$message.error("受理失败");
                         this.$message.success("受理成功");
                         this.getAllOrders();

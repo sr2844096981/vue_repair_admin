@@ -79,7 +79,7 @@ export default {
     // 对话框关闭时的回调
     onDialogClosed() {
       // 对话框关闭，销毁裁切器
-      this.cropper.destroy();
+       if (this.cropper) this.cropper.destroy();
       // 清空预览图片
       this.previewImage = "";
     },

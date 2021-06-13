@@ -33,9 +33,9 @@ const request = axios.create({
     }); */
 
 // 响应拦截器
-request.interceptors.response.use(
+/* request.interceptors.response.use(
     res => {
-        console.log(res);
+        // console.log(res);
         return res;
     },
     error => {
@@ -50,5 +50,5 @@ request.interceptors.response.use(
         }, 3000);
         return Promise.reject(error);
     });
-
+ */
 export default request

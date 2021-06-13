@@ -19,7 +19,7 @@ export default {
 
 	"use strict";
 
-	// branch constructor
+	// branch constructor分支构造函数
 
 	function Branch (parent, level, x, y) {
 
@@ -35,7 +35,7 @@ export default {
 
 	}
 
-	// grow branch
+	// grow branch分支
 
 	Branch.prototype.grow = function () {
 

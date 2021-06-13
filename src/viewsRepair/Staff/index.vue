@@ -1,12 +1,15 @@
 <template>
   <div>
     <el-card shadow="never">
-      <el-button type="success" style="margin-bottom: 20px;" @click="dialogVisibleAdd = true"
+      <el-button
+        type="success"
+        style="margin-bottom: 20px"
+        @click="dialogVisibleAdd = true"
         >添加人员</el-button
       >
       <!-- <TableData :config="table_config" /> -->
       <!-- 表格模块 -->
-      <el-table :data="staffData" border style="width: 100%">
+      <el-table :data="pagingData" border style="width: 100%">
         <el-table-column type="index" width="50"></el-table-column>
         <el-table-column prop="id" label="编号" width="80"></el-table-column>
         <el-table-column prop="name" label="姓名" width="100">
@@ -34,14 +37,20 @@
           </template>
         </el-table-column>
       </el-table>
+      <el-pagination
+        style="margin-top: 30px"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        background
+        :page-sizes="[2, 4, 6, 8]"
+        :page-size="4"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="staffData.length"
+      >
+      </el-pagination>
     </el-card>
     <!-- 添加员工对话框 -->
-    <el-dialog
-      title="添加"
-      :visible.sync="dialogVisibleAdd"
-      width="50%"
-      :before-close="handleUpdate"
-    >
+    <el-dialog title="添加" :visible.sync="dialogVisibleAdd" width="50%">
       <el-form ref="formStaffInfo" :model="formStaffInfo" label-width="80px">
         <el-form-item label="姓名">
           <el-input v-model="formStaffInfo.name"></el-input>
@@ -67,12 +76,7 @@
     </el-dialog>
 
     <!-- 修改员工对话框 -->
-    <el-dialog
-      title="修改"
-      :visible.sync="dialogVisibleEdit"
-      width="50%"
-      :before-close="handleUpdate"
-    >
+    <el-dialog title="修改" :visible.sync="dialogVisibleEdit" width="50%">
       <el-form ref="formStaffInfo" :model="formStaffInfo" label-width="80px">
         <el-form-item label="姓名">
           <el-input v-model="formStaffInfo.name"></el-input>
@@ -101,8 +105,10 @@
 </template>
 
 <script>
+// 引入分页
+import { pageData } from "@/utils/Pagination";
 // 组件
-import TableData from '@/components/TableData'
+import TableData from "@/components/TableData";
 // api
 import {
   GetAllStaff,
@@ -111,7 +117,7 @@ import {
   DeleteStaff,
 } from "@/request/apisRepair/staff";
 export default {
-  components:{TableData},
+  components: { TableData },
   data() {
     return {
       // 表格配置
@@ -131,14 +137,19 @@ export default {
       staffData: [],
       //   控制添加员工对话框
       dialogVisibleAdd: false,
-      dialogVisibleEdit:false,
+      dialogVisibleEdit: false,
       // 员工信息表单
       formStaffInfo: {},
+      // 分页后的数组
+      pagingData: [],
+      //  每页显示条数
+      pageSize: 4,
     };
   },
   mounted() {
     this.getAllStaff();
   },
+
   methods: {
     // 获取全部维修人员数据
     getAllStaff() {
@@ -157,7 +168,6 @@ export default {
         this.dialogVisibleAdd = false;
         this.getAllStaff();
         console.log(this.staffData);
-
       });
     },
     // 展示更改员工信息对话框
@@ -176,18 +186,15 @@ export default {
     },
     // 删除维修员工信息
     handleDelete(index, row) {
-      this.$confirm(
-        "此操作将永久删除该记录, 是否继续?",
-        "提示",
-        {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
-        }
-      )
+      this.$confirm("此操作将永久删除该记录, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
         .then((res) => {
           DeleteStaff(row.id).then((res) => {
-            if (res.data.code !== 200) return this.$message.error("删除数据失败");
+            if (res.data.code !== 200)
+              return this.$message.error("删除数据失败");
             this.$message.success("删除数据成功");
             this.getAllStaff();
           });
@@ -199,7 +206,23 @@ export default {
             message: "已取消删除",
           });
         });
-
+    },
+    // 每页条数改变时触发
+    handleSizeChange(val) {
+      // console.log(`每页 ${val} 条`);
+      this.pageSize = val;
+      this.pagingData = pageData(this.staffData, 1, val);
+    },
+    // 页码改变时触发
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+      this.pagingData = pageData(this.staffData, val, this.pageSize);
+      console.log(pageData(this.staffData, val, this.pageSize));
+    },
+  },
+  watch: {
+    staffData: function () {
+      this.pagingData = pageData(this.staffData, 2, this.pageSize);
     },
   },
 };

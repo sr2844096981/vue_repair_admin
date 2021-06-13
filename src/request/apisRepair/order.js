@@ -20,10 +20,10 @@ export const QueryOrder = (id, name, schedule) => {
 }
 
 // 管理员受理维修订单
-export const AcceptancenOrder = (id, repairId, name) => {
+export const AcceptancenOrder = (repairId, name) => {
     return request({
         method: "POST",
-        url: `/magicCampus/updateAccept.do?id=${id}&repairId=${repairId}&name=${name}`,
+        url: `/magicCampus/updateAccept.do?repairId=${repairId}&name=${name}`,
     })
 }
 

@@ -1,157 +1,173 @@
-/* 清除默认样式 */
+.login-wrap {
+    height: 100%;
+    background-color: #f0f5f5;
+}
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+.login-wrap::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #3399ff;
+    clip-path: circle(20% at 100% 0);
 }
 
 .container {
+    position: absolute;
+    top: 48%;
+    left: 52%;
+    transform: translate(-50%, -50%);
+    width: 20rem;
+    height: 28rem;
+    perspective: 1500px;
+    -webkit-perspective: 1500px;
+    -moz-perspective: 1500px;
+}
+
+.box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20rem;
+    height: 28rem;
+    border-radius: 10px;
+    cursor: pointer;
+    backface-visibility: hidden;
+    transition: all 0.5s;
+    user-select: none;
+}
+
+.signup {
+    /* background-color: blue; */
+    transform: rotateY(-108deg);
+}
+
+.container .form-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
     display: flex;
-    /*弹性布局*/
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background: #282e38;
-    font-family: Arial;
+    flex-wrap: wrap;
+    /* box-shadow: 0 0 1px #3399ff; */
+    border-radius: 30px;
+    background-color: #fff;
 }
 
-.container .form-container {
-    width: 50vw;
-    height: 60vh;
-    background: #fff;
+.container .form-content .avtar {
     display: flex;
+    justify-content: center;
     align-items: center;
-    position: relative;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
-    /* 给盒子加阴影 */
-    transition: 0.5s;
-}
-
-.container .form-container:hover {
-    transform: translateY(-10px) rotate(-1deg);
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
-    /* 给盒子加阴影 */
-}
-
-.container .form-image {
-    width: 55%;
-    height: 100%;
-    background: linear-gradient(rgba(235, 0, 255, 0.9), rgba(17, 166, 233, 0.9));
-    position: absolute;
-    right: 0;
-    color: #fff;
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 70% 100%);
-}
-
-.container .form-image .text {
-    width: 60%;
-    position: absolute;
-    right: 0;
-    padding: 30px;
-    margin-top: 30px;
-    text-align: right;
-}
-
-.container .form-image .text p {
-    font-size: 12px;
-}
-
-.container .form-image .text h2 {
-    font-size: 34px;
-    margin-bottom: 20px;
-}
-
-.form-group {
-    margin: 30px 40px;
-}
-
-.form-group .input-group {
-    width: 300px;
-    margin: 15px 0px;
-}
-
-.form-body .header {
-    margin: 0 40px;
-}
-
-.form-body .header h2 {
-    margin-bottom: 15px;
-}
-
-.form-body .header p {
-    font-size: 12px;
-}
-
-.form-body .header a {
-    text-decoration: none;
-    color: rgb(235, 0, 255);
-}
-
-.form-group .input-group input[type="password"],
-.form-group .input-group input[type="text"] {
     width: 100%;
-    padding: 8px 15px;
-    outline: none;
-    border: 1px solid #ccc;
-    border-radius: 5px;
 }
 
-.form-group .input-group.right {
-    text-align: right;
-}
-
-.form-group .input-group button {
-    width: 100px;
-    padding: 10px 15px;
-    color: #fff;
-    background: rgb(235, 0, 255);
-    border: none;
-    border-radius: 5px;
-    margin-top: 15px;
-    outline: none;
-    cursor: pointer;
+.container .form-content .avtar .pic {
     position: relative;
-    z-index: 1;
+    width: 80px;
+    height: 80px;
     overflow: hidden;
-    /*隐藏设置 */
 }
 
-.form-group .input-group button::before {
+.container .form-content .avtar .pic img {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    content: "";
+}
+
+.container .form-content h1 {
+    font-size: 1.6rem;
+}
+
+.container .form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.container .form input {
+    width: 16rem;
+    padding: 0.8rem;
+    padding-left: 3rem;
+    outline: none;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+    margin: 5px;
+}
+
+.container .form div {
+    position: relative;
+}
+
+.container .form div .fa {
     position: absolute;
-    border-radius: 5px;
-    background: linear-gradient(to left, rgba(235, 0, 255, 0.9), rgba(17, 166, 233, 0.9));
-    /*背景设置渐变*/
-    top: 0;
-    left: -100px;
+    top: 18px;
+    left: 25px;
+    font-size: 18px;
 }
 
-.form-group .input-group button:hover::before {
-    transform: translateX(100px);
-    z-index: -1;
-    transition: 0.5s;
-}
-
-.form-group .input-group.flex {
-    font-size: 12px;
+.container .form .btn {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    width: 100%;
+    margin-top: 10px;
 }
 
-.form-group .input-group.flex .remember {
+.container .form .btn button {
+    text-transform: uppercase;
+    padding: 8px;
+    border: none;
+    outline: none;
+    background-color: #0066ff;
+    color: #fff;
+    width: 12rem;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.container .btn-something {
+    color: #888;
+    font-size: 14px;
+}
+
+.container .btn-something span {
+    color: #0066ff;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+svg {
+    position: absolute;
+    bottom: 0;
+    z-index: 0;
+}
+
+.user {
+    position: absolute;
+    top: 12rem;
+    left: 7rem;
+    text-align: center;
+}
+
+.user .fa-user img {
     display: flex;
+    justify-content: center;
     align-items: center;
+    /* margin-bottom: 1rem; */
+    width: 320px;
 }
 
-.form-group .input-group.flex .remember input {
-    margin-right: 5px;
-}
-
-.form-group .input-group.flex a {
-    text-decoration: none;
-    color: rgba(0, 0, 0, 0.8);
+.head {
+    position: absolute;
+    top: 2rem;
+    left: 3rem;
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    user-select: none;
+    text-shadow: 1px 1px 1px rgba(16, 16, 16, 0.1), 1px 2px 1px rgba(16, 16, 16, 0.1), 1px 3px 1px rgba(16, 16, 16, 0.1), 1px 4px 1px rgba(16, 16, 16, 0.1), 1px 5px 1px rgba(16, 16, 16, 0.1), 1px 6px 1px rgba(16, 16, 16, 0.1), 1px 7px 1px rgba(16, 16, 16, 0.1), 1px 8px 1px rgba(16, 16, 16, 0.1);
 }

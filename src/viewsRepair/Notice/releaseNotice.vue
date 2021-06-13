@@ -86,6 +86,8 @@ export default {
         this.noticeForm.content = "";
         this.noticeForm.image = "";
       });
+      // 销毁裁切器
+       if (this.cropper) this.cropper.destroy();
     },
     // 保存草稿方法
     saveDraft() {

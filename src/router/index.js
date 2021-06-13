@@ -58,6 +58,12 @@ const routes = [{
     //     component: () =>
     //         import ( /* webpackChunkName: "BMapDemo" */ '../viewsRepair/BMapDemo'),
     // }
+    // 打印二维码页
+    {
+        path: '/printingQRcode',
+        component: () =>
+            import ( /* webpackChunkName: "printingQRcode" */ '../viewsRepair/QRcode/printingQRcode'),
+    },
     // 错误提示页
     {
         path: '/error',
