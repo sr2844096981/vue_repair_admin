@@ -16,7 +16,7 @@
         <img src="./working5.png" v-else-if="Math.floor(Math.random() * 10)<=3" alt="">
         <img src="./working4.png" v-else-if="Math.floor(Math.random() * 10)<=7" alt="">
         <img src="./working2.png" v-else alt="">
-      </i>
+      </i> 
     </div>
     <el-card class="container">
       <div class="box login">
