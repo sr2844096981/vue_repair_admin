@@ -13,7 +13,7 @@ export function CreateQrcode(element, content, codeSize) {
             L（低）：容错率为 7%（最多有7%残破或遮挡以后仍可识别，但超过7%就无法识别了）
             M（中）：容错率为 15%
             Q（较高）：容错率为 25%
-            H（高）：容错率为 30%
+            H（高）：容错率为 30% 
         */
         correctLevel: QRCode.CorrectLevel.M,
     });
