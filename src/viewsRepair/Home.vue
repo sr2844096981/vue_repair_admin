@@ -43,7 +43,7 @@
                   >修改头像</el-dropdown-item
                 >
                 <el-dropdown-item>修改密码</el-dropdown-item>
-                <el-dropdown-item command="handleLogout"
+                <el-dropdown-item divided command="handleLogout"
                   >退出登录</el-dropdown-item
                 >
               </el-dropdown-menu>
@@ -77,7 +77,7 @@ export default {
           id: 1,
           path: "/index",
           icon: "el-icon-s-home",
-          name: "首页",
+          name: "主页",
         },
         {
           id: 2,
@@ -89,7 +89,7 @@ export default {
           id: 3,
           path: "/order",
           icon: "el-icon-s-order",
-          name: "维修订单",
+          name: "订单管理",
         },
         {
           id: 4,
@@ -101,7 +101,7 @@ export default {
           id: 5,
           path: "/QRcode",
           icon: "el-icon-s-grid",
-          name: "二维码",
+          name: "设备管理",
         },
         {
           id: 6,
@@ -109,13 +109,6 @@ export default {
           icon: "el-icon-s-data",
           name: "数据展示",
         },
-        {
-          id: 11,
-          path: "/demo",
-          icon: "el-icon-s-data",
-          name: "测试",
-        },
-        
       ],
       // 激活的菜单项
       activePath: "",
@@ -128,18 +121,24 @@ export default {
   },
   created() {
     this.getUserInfo();
-    this.watchCircleUrl()
+    this.watchCircleUrl();
     this.activePath = window.sessionStorage.getItem("activePath");
   },
   methods: {
     // 保存激活菜单项
     saceNavState(activePath) {
+      // console.log(activePath);
+      if (activePath === '/showdata') {
+        
+      }
       window.sessionStorage.setItem("activePath", activePath);
       this.activePath = activePath;
+      // console.log(activePath);
+
     },
     // 折叠侧边栏
     toggleCollapse() {
-      this.isCollapse = !this.isCollapse;
+      this.isCollapse = !this.isCollapse;  
     },
     // 下拉框	点击菜单项触发的事件回调
     handleCommand(command) {
@@ -198,6 +197,9 @@ export default {
 .el-aside {
   background-color: #282e38;
   color: #fff;
+  -webkit-box-shadow: 2px 0 6px rgb(0 21 41 / 35%);
+  box-shadow: 2px 0 6px rgb(0 21 41 / 35%);
+  z-index: 999;
 }
 
 .el-main {

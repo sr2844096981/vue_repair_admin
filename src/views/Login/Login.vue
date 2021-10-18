@@ -12,10 +12,7 @@
     <div class="user">
 
       <i class="fa fa-user">
-        <img src="./working1.png" v-if="Math.floor(Math.random() * 10)<=1" alt="">
-        <img src="./working5.png" v-else-if="Math.floor(Math.random() * 10)<=3" alt="">
-        <img src="./working4.png" v-else-if="Math.floor(Math.random() * 10)<=7" alt="">
-        <img src="./working2.png" v-else alt="">
+        <img src="./working2.png"> 
       </i> 
     </div>
     <el-card class="container">
@@ -39,6 +36,7 @@
             </div>
           </div>
           <p class="btn-something">登录即同意<span class="signupbtn">《用户隐私协议》</span></p>
+          <!-- <p class="btn-something"><span class="signupbtn">账号：</span>20080606<span class="signupbtn">密码：</span>123456</p> -->
         </div>
       </div>
     </el-card>
@@ -53,8 +51,8 @@ export default {
   data() {
     return {
       loginForm: {
-        id: "2011111",
-        password: "456123",
+        id: "20080606",//20080606
+        password: "123456",//123456
       },
     };
   },
@@ -63,13 +61,14 @@ export default {
   methods: {
     // 登录
     login() {
+      if (this.loginForm.id===''||this.loginForm.password==='')  return this.$message.warning("请输入账号密码");
       Login(this.loginForm).then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.data.code !== 200) return this.$message.error("账号或密码错误");
         window.localStorage.setItem("userInfo", JSON.stringify(res.data.data));
         window.sessionStorage.setItem("activePath", "/index");
         this.$message.success("登录成功");
-        this.$router.push("/index");
+        this.$router.push("/index");     
       });
     },
   },

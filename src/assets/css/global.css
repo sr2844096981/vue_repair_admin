@@ -63,13 +63,6 @@ li {
 }
 
 
-/* 解决element表格对不齐的问题 */
-
-.el-table th.gutter {
-    display: table-cell !important;
-}
-
-
 /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
 
 ::-webkit-scrollbar {

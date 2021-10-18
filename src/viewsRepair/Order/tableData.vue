@@ -12,7 +12,7 @@
           <el-button
             size="mini"
             type="primary"
-            @click="handleDetails(scope.$index, scope.row)"
+            @click="handleDetails(scope.$index, scope.row.id)"
             >详情</el-button
           >
           <el-button
@@ -27,6 +27,7 @@
     </el-table>
     <!-- 分页 -->
     <el-pagination
+    id="pagination"
       style="margin-top: 30px"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -69,13 +70,13 @@ export default {
   methods: {
     // 每页条数改变时触发
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+      // console.log(`每页 ${val} 条`);
       this.pageSize = val;
       this.pagingData = pageData(this.ordersData, 1, val);
     },
     // 页码改变时触发
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+      // console.log(`当前页: ${val}`);
       this.pagingData = pageData(this.ordersData, val, this.pageSize);
     },
   },

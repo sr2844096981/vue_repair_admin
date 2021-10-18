@@ -1,11 +1,14 @@
 import axios from "axios"
 import router from "../router";
+import { Message } from "element-ui";
+
+const TimeOut = 5400 //超时时间 秒
 
 const request = axios.create({
     // 开发
-    baseURL: "http://localhost:8080",
+    //baseURL: "http://localhost:8080",
     // 上线
-    // baseURL: "http://39.101.165.25:8080",
+     baseURL: "http://47.100.119.125:8080",
     timeout: 5000
 })
 
@@ -15,6 +18,30 @@ const request = axios.create({
     timeout: 5000
 }) */
 
+
+request.interceptors.request.use(config => {
+    if (window.sessionStorage.getItem('timeStamp')) {
+        if (isCheckTimeOut()) {
+            // 登出操作
+            window.localStorage.clear();
+            window.sessionStorage.clear();
+            Message.error("长时间未操作，请重新登陆！");
+            setTimeout(() => {
+                router.push("/login");
+            }, 1000);
+        }
+    } else {
+        window.sessionStorage.setItem('timeStamp', Date.now())
+    }
+    return config
+})
+
+// 操作超时
+function isCheckTimeOut() {
+    let currentTime = Date.now() // 当前时间戳
+    let timeStamp = window.sessionStorage.getItem('timeStamp') // 缓存时间戳
+    return (currentTime - timeStamp) / 1000 > TimeOut
+}
 // 请求拦截器
 // 发请求之前执行
 /* instance.interceptors.request.use(

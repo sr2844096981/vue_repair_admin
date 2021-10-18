@@ -19,45 +19,52 @@ const routes = [{
         component: () =>
             import ( /* webpackChunkName: "Home" */ '../viewsRepair/Home.vue'),
         children: [{
-            path: '/index',
-            component: () =>
-                import ( /* webpackChunkName: "Index" */ '../viewsRepair/Index'),
-        }, {
-            path: '/notice',
-            component: () =>
-                import ( /* webpackChunkName: "Notice" */ '../viewsRepair/Notice'),
-        }, {
-            path: '/order',
-            component: () =>
-                import ( /* webpackChunkName: "Order" */ '../viewsRepair/Order'),
-        }, {
-            path: '/staff',
-            component: () =>
-                import ( /* webpackChunkName: "Staff" */ '../viewsRepair/Staff'),
-        }, {
-            path: '/showdata',
-            component: () =>
-                import ( /* webpackChunkName: "ShowData" */ '../viewsRepair/ShowData'),
-        }, {
-            path: '/QRcode',
-            component: () =>
-                import ( /* webpackChunkName: "ORcode" */ '../viewsRepair/QRcode'),
-        }, {
-            path: '/addQRcode/:id',
-            component: () =>
-                import ( /* webpackChunkName: "AddQRcode" */ '../viewsRepair/QRcode/addQRcode'),
-        }, {
-            path: '/demo',
-            component: () =>
-                import ( /* webpackChunkName: "Demo" */ '../components/demo.vue'),
-        }, ]
+                path: '/index',
+                component: () =>
+                    import ( /* webpackChunkName: "Index" */ '../viewsRepair/Index'),
+            }, {
+                path: '/notice',
+                component: () =>
+                    import ( /* webpackChunkName: "Notice" */ '../viewsRepair/Notice'),
+            }, {
+                path: '/order',
+                component: () =>
+                    import ( /* webpackChunkName: "Order" */ '../viewsRepair/Order'),
+            }, {
+                path: '/order/detail/:id',
+                component: () =>
+                    import ( /* webpackChunkName: "OrderDetail" */ '../viewsRepair/Order/detail'),
+            }, {
+                path: '/staff',
+                component: () =>
+                    import ( /* webpackChunkName: "Staff" */ '../viewsRepair/Staff'),
+            }, {
+                path: '/QRcode',
+                component: () =>
+                    import ( /* webpackChunkName: "ORcode" */ '../viewsRepair/QRcode'),
+            }, {
+                path: '/addQRcode/:id',
+                component: () =>
+                    import ( /* webpackChunkName: "AddQRcode" */ '../viewsRepair/QRcode/addQRcode'),
+            },
+            // 数据展示
+            {
+                path: '/showdata',
+                component: () =>
+                    import ( /* webpackChunkName: "ShowData" */ '../viewsRepair/ShowData'),
+            }, {
+                path: '/dynamic',
+                component: () =>
+                    import ( /* webpackChunkName: "dynamic" */ '../viewsRepair/Dynamic'),
+            }, {
+                path: '/demo',
+                component: () =>
+                    import ( /* webpackChunkName: "Demo" */ '../components/demo.vue'),
+            },
+        ]
     },
-    // 全屏显示
-    // {
-    //     path: '/bmapscreenfull',
-    //     component: () =>
-    //         import ( /* webpackChunkName: "BMapDemo" */ '../viewsRepair/BMapDemo'),
-    // }
+
+
     // 打印二维码页
     {
         path: '/printingQRcode',

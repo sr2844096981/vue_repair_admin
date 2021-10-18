@@ -3,11 +3,11 @@ import request from "@/request/request"
 /**
  * 首页api
  */
-//  上传管理员头像到服务器
+//  上传管理员头像到数据库
 export const ChangeAvatar = data => {
     return request({
         method: "POST",
-        url: "/magicCampus/uploadAdminHeaderDatabase.do",
+        url: "/Campus/uploadAdminHeaderDatabase.do",
         data
     })
 }
@@ -16,7 +16,7 @@ export const ChangeAvatar = data => {
 export const UpdateAvatarToServer = data => {
     return request({
         method: "POST",
-        url: "/magicCampus/updateAdminHeaderServer.do",
+        url: "/Campus/updateAdminHeaderServer.do",
         data
     })
 }

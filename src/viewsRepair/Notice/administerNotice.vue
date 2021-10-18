@@ -61,7 +61,7 @@
         </el-form-item>
         <el-form-item label="封面">
           <el-image
-            style="width: 100px; height: 100px"
+            style="height: 100px"
             :src="detailsData.image"
             fit="fit"
           ></el-image>
@@ -113,7 +113,6 @@ export default {
     },
     // 查看公告详情方法
     handleShow(index, row) {
-      console.log(index, row);
       this.detailsData = row;
       this.dialogVisible = true;
     },

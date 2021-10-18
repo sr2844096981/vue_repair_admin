@@ -26,15 +26,26 @@
 }
 
 .full-screen {
+    float: right;
+}
+
+.full-screen-wrap {
     position: absolute;
     right: 10px;
     top: 5px;
+    width: 200px;
 }
 
 .order-num {
     text-align: center;
     line-height: 20px;
-    vertical-align: middle;
+    /* vertical-align: middle; */
+    margin-left: 200px;
+    margin-right: 200px;
+}
+
+.control .el-card__body {
+    padding: 0;
 }
 
 .num {
@@ -52,6 +63,7 @@
     position: absolute;
     top: 10px;
     left: 10px;
+    width: 200px;
 }
 
 .showTime .num {
@@ -72,11 +84,11 @@
 .eacharts01 {
     position: absolute;
     top: 60px;
-    left: 10px;
+    margin-left: 15px;
 }
 
 .eacharts02 {
-    position: absolute;
-    top: 380px;
-    left: 10px;
+    position: fixed;
+    bottom: 20px;
+    margin-left: 15px;
 }

@@ -4,12 +4,39 @@
       <el-button
         type="success"
         style="margin-bottom: 20px"
-        @click="dialogVisibleAdd = true"
+        @click="getAllUnit"
         >添加人员</el-button
+      >
+      <el-button type="danger" style="margin-bottom: 20px" @click="exportData"
+        >导出excel</el-button
       >
       <!-- <TableData :config="table_config" /> -->
       <!-- 表格模块 -->
       <el-table :data="pagingData" border style="width: 100%">
+        <el-table-column type="expand">
+          <template slot-scope="props">
+            <el-form label-position="left" inline class="demo-table-expand">
+              <el-form-item label="工号">
+                <span>{{ props.row.id }}</span>
+              </el-form-item>
+              <el-form-item label="姓名">
+                <span>{{ props.row.name }}</span>
+              </el-form-item>
+              <el-form-item label="部门">
+                <span>{{ props.row.unit }}</span>
+              </el-form-item>
+              <el-form-item label="电话">
+                <span>{{ props.row.phone }}</span>
+              </el-form-item>
+              <el-form-item label="邮箱">
+                <span>{{ props.row.email }}</span>
+              </el-form-item>
+              <el-form-item label="状态">
+                <span>{{ props.row.status }}</span>
+              </el-form-item>
+            </el-form>
+          </template>
+        </el-table-column>
         <el-table-column type="index" width="50"></el-table-column>
         <el-table-column prop="id" label="编号" width="80"></el-table-column>
         <el-table-column prop="name" label="姓名" width="100">
@@ -62,9 +89,8 @@
           <el-input v-model="formStaffInfo.email"></el-input>
         </el-form-item>
         <el-form-item label="工种">
-          <el-select v-model="formStaffInfo.typeWork" placeholder="请选择工种">
-            <el-option label="木工" value="mugong"></el-option>
-            <el-option label="电工" value="diangong"></el-option>
+          <el-select v-model="formStaffInfo.unit"  placeholder="请选择工种">
+            <el-option v-for="item in unitData" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -88,11 +114,8 @@
           <el-input v-model="formStaffInfo.email"></el-input>
         </el-form-item>
         <el-form-item label="工种">
-          <el-select v-model="formStaffInfo.typeWork" placeholder="请选择工种">
-            <el-option label="宿管部" value="宿管部"></el-option>
-            <el-option label="消防部" value="消防部"></el-option>
-            <el-option label="餐厅部" value="餐厅部"></el-option>
-            <el-option label="五金部" value="五金部"></el-option>
+          <el-select v-model="formStaffInfo.unit" placeholder="请选择工种">
+             <el-option v-for="item in unitData" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -107,6 +130,8 @@
 <script>
 // 引入分页
 import { pageData } from "@/utils/Pagination";
+// 引入分页
+import { exportData } from "@/utils/exportToExcel";
 // 组件
 import TableData from "@/components/TableData";
 // api
@@ -115,24 +140,12 @@ import {
   AddStaff,
   UpdateStaffInfo,
   DeleteStaff,
+  GetAllUnit,
 } from "@/request/apisRepair/staff";
 export default {
   components: { TableData },
   data() {
     return {
-      // 表格配置
-      /* table_config:{
-        thead:[
-          { label: "编号", prop:"id",width:"80"},
-          { label: "姓名", prop:"name",width:"100"},
-          { label: "工种", prop:"typeWork",width:"100"},
-          { label: "电话", prop:"phone",width:""},
-          { label: "邮箱", prop:"email",width:""},
-          { label: "状态", prop:"status",width:"100"},
-          { label: "操作"}
-        ],
-        url: "/magiccampus/queryAllRepairWorker"
-      }, */
       // 员工列表数据
       staffData: [],
       //   控制添加员工对话框
@@ -144,6 +157,8 @@ export default {
       pagingData: [],
       //  每页显示条数
       pageSize: 4,
+      // 所有工种
+      unitData: [],
     };
   },
   mounted() {
@@ -159,8 +174,18 @@ export default {
         this.staffData = res.data.data;
       });
     },
+    // 获取所有工种
+    getAllUnit() {
+      this.dialogVisibleAdd = true;
+      GetAllUnit().then((res) => {
+        console.log(res.data);
+        if (res.data.code !== 200) return this.$message.error("获取数据失败");
+        this.unitData = res.data.data;
+      });
+    },
     // 添加员工
     addStaff() {
+      console.log(this.formStaffInfo);
       AddStaff(this.formStaffInfo).then((res) => {
         console.log(res);
         if (res.data.code !== 200) return this.$message.error("添加数据失败");
@@ -219,14 +244,25 @@ export default {
       this.pagingData = pageData(this.staffData, val, this.pageSize);
       console.log(pageData(this.staffData, val, this.pageSize));
     },
+    // 导出excel
+    exportData() {
+      const headers = {
+        工号: "id",
+        姓名: "name",
+        部门: "unit",
+        电话: "phone",
+        邮箱: "email",
+      };
+      exportData(headers, this.staffData, "维修人员信息表");
+    },
   },
   watch: {
     staffData: function () {
-      this.pagingData = pageData(this.staffData, 2, this.pageSize);
+      this.pagingData = pageData(this.staffData, 1, this.pageSize);
     },
   },
 };
 </script>
 
-<style>
+<style lang="css" >
 </style>

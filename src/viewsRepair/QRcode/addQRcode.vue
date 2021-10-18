@@ -13,7 +13,8 @@
         </el-form-item>
         <el-form-item label="设备编号">
           <el-input
-            v-model="formQRinfo.deviceId"
+            v-model="formQRinfo.id"
+            placeholder="只能是数字类型"
             :disabled="status == 'update' ? true : false"
           ></el-input>
         </el-form-item>
@@ -63,11 +64,11 @@ export default {
   data() {
     return {
       formQRinfo: {
-        area: "一号教学楼",
-        address: "411教室",
-        project: "投影仪",
-        worker: "未知单位",
-        deviceId: "",
+        area: "",
+        address: "",
+        project: "",
+        worker: "",
+        id: "",
         codeUrl: "",
       },
       QRcodeUrl: "",
@@ -79,13 +80,22 @@ export default {
   },
   mounted() {
     if (this.$route.params.id !== "add") {
-      this.formQRinfo.deviceId = this.$route.params.id;
+      this.formQRinfo.id = this.$route.params.id;
       this.status = "update";
     }
   },
   methods: {
     // 添加 / 修改设备信息公共部分
     commonCode() {
+      if (
+        this.formQRinfo.area === "" ||
+        this.formQRinfo.address === "" ||
+        this.formQRinfo.project === "" ||
+        this.formQRinfo.project === "" ||
+        this.formQRinfo.worker === ""
+      ) {
+        return this.$message.error("所有项为必填项");
+      }
       let projectInfo = JSON.stringify(this.formQRinfo);
       //清除二维码
       if (document.querySelector("#qrcode").querySelector("img")) {
@@ -93,12 +103,13 @@ export default {
       }
       // 创建二维码
       CreateQrcode(this.$refs.qrcode, projectInfo, 150);
+
       let img = document.querySelector("#qrcode").querySelector("img");
       img.onload = () => {
         // base64转blob
         const file = ConvertBase64UrlToBlob(img.src);
         // 上传文件
-        const fd =  UploadFile("fileName", file, "ming.png")
+        const fd = UploadFile("fileName", file, "ming.png");
         AddAnnImageToServer(fd).then((res) => {
           // console.log(res.data.data);
           this.formQRinfo.codeUrl = res.data.data.fileName;

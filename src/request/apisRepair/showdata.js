@@ -8,14 +8,14 @@ import request from "@/request/request"
 export const GetOrderNumByToday = () => {
         return request({
             method: "GET",
-            url: '/magicCampus/getTodayNewRepair.do',
+            url: '/Campus/getTodayNewRepair.do',
         })
     }
     // 获取全部报修数量
 export const GetOrderNumByAll = () => {
     return request({
         method: "GET",
-        url: '/magicCampus/allNewRepair.do',
+        url: '/Campus/allNewRepair.do',
     })
 }
 
@@ -23,7 +23,7 @@ export const GetOrderNumByAll = () => {
 export const GetOrderByRegion = (id, name, area) => {
     return request({
         method: "POST",
-        url: `/magicCampus/getRepairListByArea.do?id=${id}&name=${name}&area=${area}`,
+        url: `/Campus/getRepairListByArea.do?id=${id}&name=${name}&area=${area}`,
     })
 }
 
@@ -31,7 +31,7 @@ export const GetOrderByRegion = (id, name, area) => {
 export const GetOrderNumByRegion = () => {
     return request({
         method: "GET",
-        url: '/magicCampus/getRepairNumListByArea.do',
+        url: '/Campus/getRepairNumListByArea.do',
     })
 }
 
@@ -39,7 +39,7 @@ export const GetOrderNumByRegion = () => {
 export const GetOrderNumByWeek = () => {
     return request({
         method: "GET",
-        url: '/magicCampus/getWeekNum.do',
+        url: '/Campus/getWeekNum.do',
     })
 }
 
@@ -47,6 +47,6 @@ export const GetOrderNumByWeek = () => {
 export const GetRepairListByToday = () => {
     return request({
         method: "GET",
-        url: '/magicCampus/getRepairListByToday.do',
+        url: '/Campus/getRepairListByToday.do',
     })
 }

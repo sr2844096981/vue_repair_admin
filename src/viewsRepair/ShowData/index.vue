@@ -1,6 +1,7 @@
 <template>
   <div class="main">
-    <div class="control">
+    <div ref="showDataAllPage">
+      <el-card class="control">
       <!-- 实时时间 -->
       <div class="showTime">
         <span class="num" ref="showTime">2020年3月17-0时54分14秒</span>
@@ -12,16 +13,17 @@
         >
       </div>
       <!-- 切换全屏 -->
-<!--       <el-button
-        type="success"
+      <div class="full-screen-wrap">
+        <el-button
+        type="danger"
         icon="el-icon-full-screen"
         circle
         class="full-screen"
         size="small"
         @click="screenfull"
-      ></el-button> -->
-      <!-- <i class="el-icon-full-screen full-screen" @click="screenfull"></i> -->
-    </div>
+      ></el-button>
+      </div>
+    </el-card>
     <!-- 图表 -->
     <div class="eacharts01">
       <Eacharts01 style="width:100%;height:100%"/>
@@ -42,7 +44,7 @@
         :dragging="true"
         animation="BMAP_ANIMATION_BOUNCE"
       >
-        <bm-label
+       <!--  <bm-label
           :content="content"
           :labelStyle="{
             color: 'green',
@@ -50,8 +52,13 @@
             fontSize: '16px',
           }"
           :offset="{ width: -35, height: 30 }"
+        /> -->
+         <bm-label
+          :content="content"
+          :offset="{ width: -35, height: 30 }"
         />
       </bm-marker>
+      <!-- <bm-label content="我爱北京天安门" :labelStyle="{color: 'red', fontSize : '24px'}" :offset="{width: -35, height: 30}"/> -->
       <!-- 标记点 -->
       <!-- <bm-marker
         v-for="(item, index) in marker"
@@ -68,6 +75,7 @@
         </bm-info-window>
       </bm-marker> -->
     </baidu-map>
+    </div>
   </div>
 </template>
 

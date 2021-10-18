@@ -12,7 +12,7 @@
         ></el-input>
       </el-form-item>
       <el-form-item label="封面">
-        <div class="image-wrap">
+        <div class="image-wrap" v-loading="loading" element-loading-text="上传中">
           <img
             class="image"
             ref="preview-image"
@@ -70,24 +70,30 @@ export default {
       dialogVisible: false,
       formData: new FormData(),
       flag: false,
+      // 退出确认
+      backConfirm: false,
+      loading:false,
     };
   },
   mounted() {
     this.getDraft();
   },
+
   methods: {
     // 发布公告方法
     release() {
-      console.log(this.noticeForm);
+      const {title,content,image} = this.noticeForm
+      if (title===""||content===""||image=="")  return this.$message.error("所有项不能为空")
       ReleaseNotice(this.noticeForm).then((res) => {
         if (res.data.code !== 200) return this.$message.error("发布失败");
         this.$message.success("发布成功");
         this.noticeForm.title = "";
         this.noticeForm.content = "";
         this.noticeForm.image = "";
+        this.previewImage = "";
       });
       // 销毁裁切器
-       if (this.cropper) this.cropper.destroy();
+      if (this.cropper) this.cropper.destroy();
     },
     // 保存草稿方法
     saveDraft() {
@@ -112,29 +118,29 @@ export default {
       const image = this.$refs["preview-image"];
       this.cropper = new Cropper(image, {
         // 裁切比例
-        aspectRatio: 4 / 3,
+        aspectRatio: 16 / 9,
         // 移动画布
         dragMove: "move",
       });
     },
     // 选择图片触发事件
     onFileChange() {
+      const file = this.$refs.file;
+      if (!this.beforeAvatarUpload(file.files[0])) return;
+      console.log(this.beforeAvatarUpload(file.files[0]));
       // 显示裁切完成按钮
       this.flag = true;
       // 选择图片前，销毁裁切器
       if (this.cropper) this.cropper.destroy();
-      const file = this.$refs.file;
-      // console.log(file.files[0]);
       // 预览图片
       const blobData = window.URL.createObjectURL(file.files[0]);
-      // console.log(blobData);
       this.previewImage = blobData;
-      setTimeout(this.setCropper, 300);
+      setTimeout(this.setCropper, 500);
     },
     // 完成裁剪
     cropperSuccess() {
       // 加载中
-      // this.loading = true;
+      this.loading = true;
       // 将裁切后的图片上传到服务器
       this.cropper.getCroppedCanvas().toBlob((file) => {
         const fd = new FormData();
@@ -149,6 +155,7 @@ export default {
         });
       });
       this.flag = false;
+      this.loading = false
     },
     // 对话框关闭时的回调
     onDialogClosed() {
@@ -159,15 +166,19 @@ export default {
     },
     // 上传图片前预处理
     beforeAvatarUpload(file) {
-      console.log(file);
       // 校验图片大小
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isLt2M) return this.$message.error("上传图片大小不能超过 2MB!");
-      // 预览图片
-      const nfile = this.$refs.file;
-      const blobData = window.URL.createObjectURL(file);
-      console.log(blobData);
-      // this.previewImage = blobData;
+      const maxSize = 2 * 1024 * 1024;
+      if (maxSize < file.size) {
+        this.$message.error("图片大小不能超过2M");
+        return false;
+      }
+      // 校验图片格式
+      const types = ["image/jpeg", "image/gif", "image/jpg", "image/png"];
+      if (!types.includes(file.type)) {
+        this.$message.error("图片类型只能是：" + types);
+        return false;
+      }
+      return true
     },
     preserve() {
       this.$message.success("保存成功");
@@ -194,5 +205,9 @@ export default {
 .image {
   display: block;
   max-width: 100%;
+}
+
+.el-progress{
+  width: 320px;
 }
 </style>

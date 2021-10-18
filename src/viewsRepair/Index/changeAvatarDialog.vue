@@ -79,7 +79,7 @@ export default {
     // 对话框关闭时的回调
     onDialogClosed() {
       // 对话框关闭，销毁裁切器
-       if (this.cropper) this.cropper.destroy();
+      if (this.cropper) this.cropper.destroy();
       // 清空预览图片
       this.previewImage = "";
     },
@@ -101,16 +101,12 @@ export default {
       this.cropper.getCroppedCanvas().toBlob((file) => {
         const fd = new FormData();
         fd.append("fileName", file, "不清楚为什么需要文件名.png");
-        // console.log(fd.get("fileName"));
         UpdateAvatarToServer(fd).then((res) => {
-          console.log(res.data.data.fileName);
           this.changeAvatarForm.fileName = res.data.data.fileName;
         });
       });
       setTimeout(() => {
-        console.log(this.changeAvatarForm);
         ChangeAvatar(this.changeAvatarForm).then((res) => {
-          console.log(res);
           if (res.data.code !== 200) return this.$message.error("修改头像失败");
           this.$message.success("修改头像成功");
           //发射组件A的数据
@@ -124,7 +120,7 @@ export default {
           // 加载完成
           this.loading = false;
         });
-      }, 500);
+      }, 1000);
     },
     // 回传给父组件 关闭信息
     close() {

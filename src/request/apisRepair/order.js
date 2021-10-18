@@ -7,7 +7,7 @@ import request from "@/request/request"
 export const GetAllOrders = () => {
     return request({
         method: "GET",
-        url: "/magicCampus/repairList.do",
+        url: "/Campus/repairList.do",
     })
 }
 
@@ -15,7 +15,15 @@ export const GetAllOrders = () => {
 export const QueryOrder = (id, name, schedule) => {
     return request({
         method: "POST",
-        url: `/magicCampus/queryAdministratorScheduleList.do?id=${id}&name=${name}&schedule=${schedule}`,
+        url: `/Campus/queryAdministratorScheduleList.do?id=${id}&name=${name}&schedule=${schedule}`,
+    })
+}
+
+// 获取报修列表
+export const GetOrderDetail = (orderId) => {
+    return request({
+        method: "POST",
+        url: `/Campus/showRepair.do?id=${orderId}`,
     })
 }
 
@@ -23,7 +31,7 @@ export const QueryOrder = (id, name, schedule) => {
 export const AcceptancenOrder = (repairId, name) => {
     return request({
         method: "POST",
-        url: `/magicCampus/updateAccept.do?repairId=${repairId}&name=${name}`,
+        url: `/Campus/updateAccept.do?id=${repairId}&name=${name}`,
     })
 }
 
@@ -31,7 +39,7 @@ export const AcceptancenOrder = (repairId, name) => {
 export const AssignmentOrder = (phone, repairId, name) => {
     return request({
         method: "POST",
-        url: `/magicCampus/updateDispatch.do?phone=${phone}&repairId=${repairId}&name=${name}`,
+        url: `/Campus/updateDispatch.do?phone=${phone}&repairId=${repairId}&name=${name}`,
     })
 }
 
@@ -39,7 +47,7 @@ export const AssignmentOrder = (phone, repairId, name) => {
 export const WorkSign = (repairId) => {
     return request({
         method: "POST",
-        url: `/magicCampus/workSign.do?repairId=${repairId}`,
+        url: `/Campus/workSign.do?repairId=${repairId}`,
     })
 }
 
@@ -47,6 +55,6 @@ export const WorkSign = (repairId) => {
 export const Complete = (repairId) => {
     return request({
         method: "POST",
-        url: `/magicCampus/updateFinished.do?repairId=${repairId}`,
+        url: `/Campus/updateFinished.do?repairId=${repairId}`,
     })
 }

@@ -6,6 +6,9 @@ import Eacharts03 from "../../components/Echarts/Echarts03.vue";
 import { GetOrderNumByToday, GetOrderNumByAll, GetRepairListByToday } from "@/request/apisRepair/showdata"
 import { QueryOrder } from "@/request/apisRepair/order";
 
+// 工具
+import { fullScreen } from "@/utils/fullScreen"
+
 export default {
     name: "bmap",
     components: { Eacharts01, Eacharts03 },
@@ -26,7 +29,7 @@ export default {
                 lat: 36.457444,
             },
             // 新订单信息
-            content: '新订单信息',
+            content: '有新的维修信息了！',
             // 轮询新订单定时器
             timerLoopRequest: null,
             // 标记点
@@ -86,15 +89,10 @@ export default {
             }
         },
         // 全屏显示
-        /*         screenfull() {
-                    if (screenfull.isFullscreen == false) {
-                        this.$router.push("/bmapscreenfull");
-                    } else {
-                        this.$router.push("/bmap");
-                    }
-                    // 切换全屏
-                    screenfull.toggle();
-                }, */
+        screenfull() {
+            let elem = this.$refs.showDataAllPage
+            fullScreen(elem)
+        },
         // 功能介绍
         funIntroduction() {
             this.$notify({
@@ -112,6 +110,7 @@ export default {
                 untreatedOrderNum = res.data.data.length
             })
             const h = this.$createElement;
+            if (untreatedOrderNum === 0) return false;
             setTimeout(() => {
                 this.$notify({
                     title: "警告",

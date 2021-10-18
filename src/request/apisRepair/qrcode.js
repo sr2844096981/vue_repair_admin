@@ -8,7 +8,7 @@ import request from "@/request/request"
 export const GetAllDevice = () => {
     return request({
         method: "GET",
-        url: "/magicCampus/queryAllDevice.do",
+        url: "/Campus/queryAllDevice.do",
     })
 }
 
@@ -16,7 +16,7 @@ export const GetAllDevice = () => {
 export const AddDevice = data => {
     return request({
         method: "POST",
-        url: "/magicCampus/addDevice.do",
+        url: "/Campus/addDevice.do",
         data
     })
 }
@@ -25,7 +25,7 @@ export const AddDevice = data => {
 export const UpdateDeviceInfo = data => {
     return request({
         method: "POST",
-        url: "/magicCampus/updateDevice.do",
+        url: "/Campus/updateDevice.do",
         data
     })
 }
@@ -34,6 +34,6 @@ export const UpdateDeviceInfo = data => {
 export const DeleteStaff = (id) => {
     return request({
         method: "POST",
-        url: "/magicCampus/removeDevice.do?id=" + id,
+        url: "/Campus/removeDevice.do?id=" + id,
     })
 }
